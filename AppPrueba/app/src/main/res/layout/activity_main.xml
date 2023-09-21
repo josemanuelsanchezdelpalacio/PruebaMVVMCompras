@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,21 +11,21 @@
         android:id="@+id/edtIntroduceNombre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:hint="@string/introduce_tu_nombre"/>
+        android:hint="@string/introduce_tu_nombre"
+        android:textAlignment="center" />
 
     <Button
         android:id="@+id/btnSaludo"
-        android:layout_width="wrap_content"
+        android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/black"
         android:text="@string/mensaje_boton" />
 
     <TextView
         android:id="@+id/txtSaludo"
-        android:layout_width="wrap_content"
+        android:layout_width="170dp"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text=""/>
+        android:text=""
+        android:textAlignment="center" />
 
 </LinearLayout>
