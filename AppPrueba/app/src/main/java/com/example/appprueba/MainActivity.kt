@@ -20,8 +20,6 @@ class MainActivity : AppCompatActivity() {
         txtSaludo = findViewById(R.id.txtSaludo)
         edtIntroduceNombre = findViewById(R.id.edtIntroduceNombre)
 
-        btnSaludo.setOnClickListener{
-            txtSaludo.text = "Hola ${edtIntroduceNombre.text}"
-        }
+        btnSaludo.setOnClickListener{ txtSaludo.text = "Hola ${edtIntroduceNombre.text}" }
     }
 }
