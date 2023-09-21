@@ -1,5 +1,6 @@
 package com.example.appprueba
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -11,6 +12,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnSaludo: Button
     private lateinit var txtSaludo: TextView
     private lateinit var edtIntroduceNombre: EditText
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -20,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         edtIntroduceNombre = findViewById(R.id.edtIntroduceNombre)
 
         btnSaludo.setOnClickListener{
-            txtSaludo.text = "Hola " + edtIntroduceNombre.getText().toString()
+            txtSaludo.text = "Hola ${edtIntroduceNombre.text}"
         }
     }
 }
