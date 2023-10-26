@@ -1,6 +1,0 @@
-<resources>
-    <string name="app_name">AppPrueba</string>
-    <string name="mensaje_boton">PULSA EL BOTON</string>
-    <string name="mensaje">HOLA</string>
-    <string name="introduce_tu_nombre">Introduce tu nombre</string>
-</resources>
