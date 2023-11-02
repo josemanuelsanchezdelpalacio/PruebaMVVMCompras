@@ -11,7 +11,7 @@ import com.dam2jms.pruebanavigation.screens.secondScreen
 fun appNavigation(){
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = AppScreens.FirstScreen.route){
-        composable(route = AppScreens.FirstScreen.route) { firstScreen() }
-        composable(route = AppScreens.FirstScreen.route) { secondScreen() }
+        composable(route = AppScreens.FirstScreen.route) { firstScreen(navController) }
+        composable(route = AppScreens.SecondScreen.route) { secondScreen(navController) }
     }
 }

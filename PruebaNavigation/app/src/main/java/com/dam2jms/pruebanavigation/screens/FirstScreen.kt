@@ -8,16 +8,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
+import com.dam2jms.pruebanavigation.navigation.AppScreens
 
 @Composable
-fun firstScreen(){
+fun firstScreen(navController: NavController){
     Column (
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         Text(text = "PRIMERA VENTANA")
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = { navController.navigate(route = AppScreens.SecondScreen.route) }) {
             Text(text = "Navegar")
         }
     }
