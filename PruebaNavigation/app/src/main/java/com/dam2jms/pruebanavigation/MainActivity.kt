@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.dam2jms.pruebanavigation.navigation.appNavigation
 import com.dam2jms.pruebanavigation.screens.firstScreen
 import com.dam2jms.pruebanavigation.ui.theme.PruebaNavigationTheme
 
@@ -23,14 +24,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    firstScreen()
+                    appNavigation()
                 }
             }
         }
     }
-}
-
-@Composable
-fun Greeting() {
-
 }
