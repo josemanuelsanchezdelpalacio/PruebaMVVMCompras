@@ -12,13 +12,14 @@ import androidx.navigation.NavController
 import com.dam2jms.pruebanavigation.navigation.AppScreens
 
 @Composable
-fun secondScreen(navController: NavController){
+//el interrogante para indicar que puede que venga vacio el string
+fun secondScreen(navController: NavController, text: String?){
     Column (
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
-        Text(text = "SEGUNDA VENTANA")
+        Text(text = text.toString())
         Button(onClick = { navController.navigate(route = AppScreens.FirstScreen.route) }) {
             Text(text = "Volver a la primera ventana")
         }
