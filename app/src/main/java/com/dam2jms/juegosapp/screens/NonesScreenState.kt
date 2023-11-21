@@ -15,13 +15,14 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -30,20 +31,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.dam2jms.juegosapp.ui.ViewModelNones
-import com.dam2jms.juegosapp.ui.ViewModelSiete
+import com.dam2jms.juegosapp.states.NonesUiState
+import com.dam2jms.juegosapp.ui.ViewModelNonesState
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun sieteScreen(navController: NavController, mvvm: ViewModelSiete) {
-    val puntuacionJugador: Double by mvvm.puntuacionJugador.observeAsState(initial = 0.0)
-    val puntuacionPC: Double by mvvm.puntuacionPC.observeAsState(initial = 0.0)
-    val resultado: String by mvvm.resultado.observeAsState("")
+fun nonesScreenState(navController: NavController, mvvm: ViewModelNonesState) {
+
+    val nonesUiState by mvvm.uiState.collectAsState()
 
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text(text = "PUNTUACION JUGADOR: $puntuacionJugador\n PUNTUACION PC: $puntuacionPC") },
+                title = { Text(text = "PUNTUACION: ${nonesUiState.puntuacion}") },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.primary
@@ -56,18 +57,15 @@ fun sieteScreen(navController: NavController, mvvm: ViewModelSiete) {
             )
         }
     ) { paddingValues ->
-        sieteBodyContent(
-            modifier = Modifier.padding(paddingValues),
-            mvvm = mvvm,
-            resultado = resultado
-        )
+        nonesBodyContentState(modifier = Modifier.padding(paddingValues), mvvm, nonesUiState)
     }
 }
 
 @Composable
-fun sieteBodyContent(modifier: Modifier, mvvm: ViewModelSiete, resultado: String){
+fun nonesBodyContentState(modifier: Modifier, mvvm: ViewModelNonesState, nonesUiState: NonesUiState) {
 
     var mostrarAlertDialog by rememberSaveable { mutableStateOf(false) }
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -77,31 +75,40 @@ fun sieteBodyContent(modifier: Modifier, mvvm: ViewModelSiete, resultado: String
     ) {
         Spacer(modifier = Modifier.height(50.dp))
 
-        if (mostrarAlertDialog && resultado.isNotEmpty()) {
-            AlertDialog(
-                text = {
-                    Text(text = resultado)
-                },
-                onDismissRequest = { mostrarAlertDialog = false },
-                confirmButton = {
-                    TextButton(onClick = { mostrarAlertDialog = false }) {
-                        Text(text = "OK")
-                    }
-                }
-            )
+        OutlinedTextField(value = nonesUiState.seleccionJugador,
+            onValueChange = { mvvm.onChange(it, nonesUiState.numeroJugador) },
+            label = { Text(text = "Elije entre pares o nones") },
+            modifier = Modifier
+                .padding(8.dp)
+                .align(Alignment.CenterHorizontally)
+        )
+        OutlinedTextField(
+            value = nonesUiState.numeroJugador.toString(),
+            onValueChange = { mvvm.onChange(nonesUiState.seleccionJugador, if (it.equals("")) 0 else it.toInt()) },
+            label = { Text(text = "Elije la tirada entre 1 y 5") },
+            modifier = Modifier
+                .padding(8.dp)
+                .align(Alignment.CenterHorizontally)
+        )
+
+        if (mostrarAlertDialog) {
+            AlertDialog(text = {
+                nonesUiState.resultado?.let { Text(text = it) }
+            }, onDismissRequest = { mostrarAlertDialog = false }, confirmButton = {
+                TextButton(onClick = { mostrarAlertDialog = false }) { Text(text = "OK") }
+            })
         }
 
         Button(
             onClick = {
                 //llamo al metodo del viewmodel con la logica
-                mvvm.onJuego()
+                mvvm.onJuego(context = context)
                 mostrarAlertDialog = true
-            },
-            modifier = Modifier
+            }, modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp)
         ) {
-            Text(text = "Tomar Carta")
+            Text(text = "JUGAR")
         }
     }
 }

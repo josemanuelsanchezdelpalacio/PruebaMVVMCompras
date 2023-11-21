@@ -106,3 +106,72 @@ fun piedraBodyContent(modifier: Modifier, mvvm: ViewModelPiedra) {
         }
     }
 }
+
+//lo mismo pero sin usar viewmodel
+/*@Composable
+fun piedraScreen(navController: NavController) {
+
+    var eleccionJugador by rememberSaveable { mutableStateOf("") }
+    var eleccionPC by rememberSaveable { mutableStateOf("") }
+    var ganador by rememberSaveable { mutableStateOf("") }
+    var mostrarAlertDialog by rememberSaveable { mutableStateOf(false) }
+
+    val context = LocalContext.current
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(modifier = Modifier.height(16.dp))
+        OutlinedTextField(
+            value = eleccionJugador,
+            onValueChange = { eleccionJugador = it },
+            label = { Text(text = "Elije entre piedra, papel o tijeras") },
+            modifier = Modifier
+                .padding(8.dp)
+                .align(Alignment.CenterHorizontally)
+        )
+
+        if (mostrarAlertDialog) {
+            AlertDialog(
+                text = { Text(text = "Yo he sacado $eleccionPC. Gana $ganador") },
+                onDismissRequest = { mostrarAlertDialog = false },
+                confirmButton = {
+                    TextButton(onClick = {
+                        mostrarAlertDialog = false
+                    }) { Text(text = "OK") }
+                })
+        }
+
+        Button(
+            onClick = {
+
+                eleccionPC = eleccionAleatoriaPC()
+
+                //si es nones y es impar la suma o si es pares y es par la suma muestra el alertdialog con el ganador segun la suma de los numeros
+                if (eleccionJugador.equals(eleccionPC)) {
+                    mostrarAlertDialog = true
+                    ganador = "nadie"
+                } else if (
+                    (eleccionJugador.equals("piedra") && eleccionPC.equals("tijeras")) ||
+                    (eleccionJugador.equals("papel") && eleccionPC.equals("piedra")) ||
+                    (eleccionJugador.equals("tijeras") && eleccionPC.equals("papel"))
+                ) {
+                    mostrarAlertDialog = true
+                    ganador = "Jugador"
+                } else {
+                    mostrarAlertDialog = true
+                    ganador = "PC"
+                }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+
+        ) {
+            Text(text = "JUGAR")
+        }
+    }
+}*/

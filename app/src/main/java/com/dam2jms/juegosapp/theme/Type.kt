@@ -1,4 +1,4 @@
-package com.dam2jms.juegosapp.ui.theme
+package com.dam2jms.appjuegos.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
