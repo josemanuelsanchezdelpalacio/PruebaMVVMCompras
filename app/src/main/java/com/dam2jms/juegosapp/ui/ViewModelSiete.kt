@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
-class ViewModelSiete {
+class ViewModelSiete: ViewModel() {
 
     private val _puntuacionJugador = MutableLiveData<Double>(0.0)
     val puntuacionJugador: LiveData<Double> = _puntuacionJugador
@@ -25,14 +25,15 @@ class ViewModelSiete {
         _puntuacionPC.value = _puntuacionPC.value?.plus(valorCarta(cartasPC))
 
         //si esas cartas llegan a 7.5 saca el resultado segun quien haya llegado a ese numero
-        if(_puntuacionJugador.value!! >= 7.5){
-            _resultado.value = "ganas"
-        }else if(_puntuacionPC.value!! >= 7.5){
-            _resultado.value = "pierdes"
+i       if (_puntuacionJugador.value != null && _puntuacionPC.value != null) {
+            if (_puntuacionJugador.value!! >= 7.5) {
+                _resultado.value = "ganas"
+            } else if (_puntuacionPC.value!! >= 7.5) {
+                _resultado.value = "pierdes"
+            }
         }
 
-        _resultado.value = "Resultado: ${_resultado.value}"
-    }
+        _resultado.value = "Resultado: ${_resultado.value}"    }
 }
 
 //metodo para obtener 7 cartas de forma aleatoria
