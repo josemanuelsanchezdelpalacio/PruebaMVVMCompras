@@ -55,12 +55,16 @@ fun sieteScreen(navController: NavController, mvvm: ViewModelSiete) {
             )
         }
     ) { paddingValues ->
-        sieteBodyContent(modifier = Modifier.padding(paddingValues), mvvm)
+        sieteBodyContent(
+            modifier = Modifier.padding(paddingValues),
+            mvvm = mvvm,
+            resultado = resultado
+        )
     }
 }
 
 @Composable
-fun sieteBodyContent(modifier: Modifier, mvvm: ViewModelSiete){
+fun sieteBodyContent(modifier: Modifier, mvvm: ViewModelSiete, resultado: String){
 
     var mostrarAlertDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -72,12 +76,18 @@ fun sieteBodyContent(modifier: Modifier, mvvm: ViewModelSiete){
     ) {
         Spacer(modifier = Modifier.height(50.dp))
 
-        if (mostrarAlertDialog) {
-            AlertDialog(text = {
-                mvvm.resultado.value?.let { Text(text = it) }
-            }, onDismissRequest = { mostrarAlertDialog = false }, confirmButton = {
-                TextButton(onClick = { mostrarAlertDialog = false }) { Text(text = "OK") }
-            })
+        if (mostrarAlertDialog && resultado.isNotEmpty()) {
+            AlertDialog(
+                text = {
+                    Text(text = resultado)
+                },
+                onDismissRequest = { mostrarAlertDialog = false },
+                confirmButton = {
+                    TextButton(onClick = { mostrarAlertDialog = false }) {
+                        Text(text = "OK")
+                    }
+                }
+            )
         }
 
         Button(
