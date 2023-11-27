@@ -2,15 +2,11 @@ package com.dam2jms.juegosapp.ui
 
 import android.content.Context
 import android.widget.Toast
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlin.random.Random
 
-class ViewModelNones : ViewModel() {
+class ViewModelNonesState : ViewModel() {
 
     private val _puntuacion = MutableLiveData<Int>(0)
     val puntuacion: LiveData<Int> = _puntuacion

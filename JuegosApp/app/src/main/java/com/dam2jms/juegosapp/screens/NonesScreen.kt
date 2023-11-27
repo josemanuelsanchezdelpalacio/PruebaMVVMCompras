@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -30,7 +31,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.dam2jms.juegosapp.states.NonesUiState
 import com.dam2jms.juegosapp.ui.ViewModelNones
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,7 +45,7 @@ fun nonesScreen(navController: NavController, mvvm: ViewModelNones) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text(text = "PUNTUACION: $puntuacion") },
+                title = { Text(text = "PUNTUACION: ${puntuacion}") },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.primary
@@ -58,7 +61,6 @@ fun nonesScreen(navController: NavController, mvvm: ViewModelNones) {
         nonesBodyContent(modifier = Modifier.padding(paddingValues), mvvm)
     }
 }
-
 
 @Composable
 fun nonesBodyContent(modifier: Modifier, mvvm: ViewModelNones) {
@@ -82,8 +84,9 @@ fun nonesBodyContent(modifier: Modifier, mvvm: ViewModelNones) {
                 .padding(8.dp)
                 .align(Alignment.CenterHorizontally)
         )
-        OutlinedTextField(value = numeroJugador.toString(),
-            onValueChange = { mvvm.onSeleccionJugador(seleccionJugadorUi = seleccionJugador, numeroJugadorUi = it.toInt()) },
+        OutlinedTextField(
+            value = numeroJugador.toString(),
+            onValueChange = { mvvm.onSeleccionJugador(seleccionJugadorUi = seleccionJugador, numeroJugadorUi = if (it.equals("")) 0 else it.toInt()) },
             label = { Text(text = "Elije la tirada entre 1 y 5") },
             modifier = Modifier
                 .padding(8.dp)
@@ -101,7 +104,7 @@ fun nonesBodyContent(modifier: Modifier, mvvm: ViewModelNones) {
         Button(
             onClick = {
                 //llamo al metodo del viewmodel con la logica
-                mvvm.onJuego(seleccionJugador, numeroJugador, context = context)
+                mvvm.onJuego(context = context)
                 mostrarAlertDialog = true
             }, modifier = Modifier
                 .fillMaxWidth()
@@ -112,3 +115,89 @@ fun nonesBodyContent(modifier: Modifier, mvvm: ViewModelNones) {
     }
 }
 
+
+//lo mismo pero hecho sin viewmodel
+/*@Composable
+fun nonesScreen(navController: NavController) {
+
+    var nonesJugador by rememberSaveable { mutableStateOf("") }
+    var numeroJugador by rememberSaveable { mutableStateOf("") }
+
+    var nonesPC by rememberSaveable { mutableStateOf("") }
+    var numeroPC by rememberSaveable { mutableIntStateOf(0) }
+
+    var suma by rememberSaveable { mutableIntStateOf(0) }
+    var ganador by rememberSaveable { mutableStateOf("") }
+    var mostrarAlertDialog by rememberSaveable { mutableStateOf(false) }
+
+    val context = LocalContext.current
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(modifier = Modifier.height(16.dp))
+        OutlinedTextField(
+            value = nonesJugador,
+            onValueChange = { nonesJugador = it },
+            label = { Text(text = "Elije entre pares o nones") },
+            modifier = Modifier
+                .padding(8.dp)
+                .align(Alignment.CenterHorizontally)
+        )
+
+        OutlinedTextField(
+            value = numeroJugador,
+            onValueChange = { numeroJugador = it },
+            label = { Text(text = "Elije la tirada entre 1 y 5") },
+            modifier = Modifier
+                .padding(8.dp)
+                .align(Alignment.CenterHorizontally)
+        )
+
+        if (mostrarAlertDialog) {
+            AlertDialog(
+                text = { Text(text = "Yo he sacado un $numeroPC, suman $suma. Ganan $ganador") },
+                onDismissRequest = { mostrarAlertDialog = false },
+                confirmButton = {
+                    TextButton(onClick = {
+                        mostrarAlertDialog = false
+                    }) { Text(text = "OK") }
+                })
+        }
+
+        Button(
+            onClick = {
+
+                //genero de forma aleatoria que el PC escoja entre pares o nones
+                val seleccionPC: String = if (seleccionJugador == "nones") "pares" else "nones"
+                //genero un numero aleatorio entre 1 y 5 para la PC
+                numeroPC = (1..5).random()
+                suma = numeroJugador.toInt() + numeroPC
+
+                // si el numero del jugador es mayor o igual a 1 y es menor o igual a 5.
+                // si no, saca mensaje de que el numero tiene que ser entre 1 y 5
+                if (numeroJugador in 1..5) {
+                    // si es nones y es impar la suma o si es pares y es par la suma
+                    if ((seleccionJugador == "nones" && suma % 2 != 0) || (seleccionJugador == "pares" && suma % 2 == 0)) {
+                        mostrarAlertDialog = true
+                        ganador = "pares"
+                    } else {
+                        mostrarAlertDialog = true
+                        ganador = "nones"
+                    }
+                }else{
+                    Toast.makeText(context, "El numero debe ser entre 1 y 5", Toast.LENGTH_SHORT).show()
+                }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+
+        ) {
+            Text(text = "JUGAR")
+        }
+    }
+*/

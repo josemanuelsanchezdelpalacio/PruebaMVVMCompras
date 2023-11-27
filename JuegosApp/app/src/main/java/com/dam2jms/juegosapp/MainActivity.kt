@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import com.dam2jms.appjuegos.ui.theme.JuegosAppTheme
 import com.dam2jms.juegosapp.navigation.appNavigation
-import com.dam2jms.juegosapp.ui.theme.JuegosAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
