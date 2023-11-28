@@ -30,7 +30,7 @@ class ViewModelPiedra : ViewModel() {
 
             //comparo la seleccion del jugador y la del PC y si son iguales el resultado es "nadie"
             if (_seleccionJugador.value.equals(seleccionPC)) {
-                _resultado.value = "nadie"
+                _resultado.value = "empate"
             } else if (
             //comparaciones para comprobar si gana el jugador
                 (_seleccionJugador.value.equals("piedra") && seleccionPC.equals("tijeras")) ||

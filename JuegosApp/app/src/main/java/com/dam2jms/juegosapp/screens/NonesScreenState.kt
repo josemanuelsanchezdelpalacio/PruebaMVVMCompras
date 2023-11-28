@@ -34,7 +34,6 @@ import androidx.navigation.NavController
 import com.dam2jms.juegosapp.states.NonesUiState
 import com.dam2jms.juegosapp.ui.ViewModelNonesState
 
-/*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun nonesScreenState(navController: NavController, mvvm: ViewModelNonesState) {
@@ -112,4 +111,3 @@ fun nonesBodyContentState(modifier: Modifier, mvvm: ViewModelNonesState, nonesUi
         }
     }
 }
-*/

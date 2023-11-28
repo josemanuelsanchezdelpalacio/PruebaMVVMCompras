@@ -38,7 +38,6 @@ import com.dam2jms.juegosapp.ui.ViewModelSiete
 fun sieteScreen(navController: NavController, mvvm: ViewModelSiete) {
     val puntuacionJugador: Double by mvvm.puntuacionJugador.observeAsState(initial = 0.0)
     val puntuacionPC: Double by mvvm.puntuacionPC.observeAsState(initial = 0.0)
-    val resultado: String by mvvm.resultado.observeAsState("")
 
     Scaffold(
         topBar = {
@@ -58,14 +57,13 @@ fun sieteScreen(navController: NavController, mvvm: ViewModelSiete) {
     ) { paddingValues ->
         sieteBodyContent(
             modifier = Modifier.padding(paddingValues),
-            mvvm = mvvm,
-            resultado = resultado
+            mvvm = mvvm
         )
     }
 }
 
 @Composable
-fun sieteBodyContent(modifier: Modifier, mvvm: ViewModelSiete, resultado: String){
+fun sieteBodyContent(modifier: Modifier, mvvm: ViewModelSiete){
 
     var mostrarAlertDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -77,18 +75,12 @@ fun sieteBodyContent(modifier: Modifier, mvvm: ViewModelSiete, resultado: String
     ) {
         Spacer(modifier = Modifier.height(50.dp))
 
-        if (mostrarAlertDialog && resultado.isNotEmpty()) {
-            AlertDialog(
-                text = {
-                    Text(text = resultado)
-                },
-                onDismissRequest = { mostrarAlertDialog = false },
-                confirmButton = {
-                    TextButton(onClick = { mostrarAlertDialog = false }) {
-                        Text(text = "OK")
-                    }
-                }
-            )
+        if (mostrarAlertDialog) {
+            AlertDialog(text = {
+                mvvm.resultado.value?.let { Text(text = it) }
+            }, onDismissRequest = { mostrarAlertDialog = false }, confirmButton = {
+                TextButton(onClick = { mostrarAlertDialog = false }) { Text(text = "OK") }
+            })
         }
 
         Button(
