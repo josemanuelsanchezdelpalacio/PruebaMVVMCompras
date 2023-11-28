@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.dam2jms.juegosapp"
-        minSdk = 24
+        minSdk = 28
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
